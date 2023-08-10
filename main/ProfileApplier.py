@@ -16,7 +16,6 @@ class ProfileApplier:
         self.handler = ExcelHandler(self.input_excel, template_path)
 
     def apply(self):
-        print(f"Applying profile for {self.input_excel.name}")
         operations = self.profile['operations']
 
         for operation in operations:
@@ -24,7 +23,6 @@ class ProfileApplier:
             params = operation['parameters']
 
             if op_type == "COPY_COLUMN":
-                print(f"Copying column {params['srcCol']} from {params['srcSheet']} to column {params['dstCol']} in {params['dstSheet']}")
                 self.handler.copy_column(
                     src_sheet=params['srcSheet'],
                     src_col=int(params['srcCol']),
@@ -33,8 +31,6 @@ class ProfileApplier:
                     start_row=int(params.get('startRow', 2)),
                 )
             elif op_type == "COPY_SPLIT_ROW":
-                print(params)
-                print(f"Copying split row from sheet {params['srcSheet']} to sheet {params['dstSheet']} starting from row {params['startRow']}")
                 self.handler.copy_split_row(
                     src_sheet=params['srcSheet'],
                     dst_sheet=params['dstSheet'],
@@ -46,5 +42,4 @@ class ProfileApplier:
             #TODO: Extend this to other operations
 
     def save_output(self, output_path: Path):
-        print(f"Saving output to {output_path}")  
         self.handler.save_output_workbook(output_path)

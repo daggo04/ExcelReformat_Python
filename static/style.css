@@ -1,0 +1,137 @@
+.container {
+    display: flex;
+    height: 100vh;
+    justify-content: space-between;
+    align-items: stretch; /* This will ensure child elements stretch to fill available height */
+    position: relative;
+}
+
+.upload-section {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #aaa;  /* Stippled border */
+    height: calc(100% - 60px); /* Adjusting height to not overlap with the button */
+}
+
+.sidebar {
+    flex: 1;
+    padding: 20px;
+    background-color: #77ef77dd; /* Very light green */
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    display: flex;
+    flex-direction: column; 
+    gap: 20px; 
+    height: 100%; 
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+.uploaded-files {
+    flex: 1;
+    overflow-y: auto; /* for potential scrolling if many files */
+    border: 2px solid #aaa; /* distinct border */
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff; /* White background */
+    list-style-type: none; /* Remove default bullet points */
+    margin: 0;
+}
+
+.uploaded-files div {
+    padding: 5px;
+    border: 1px solid #146a09;
+    margin: 5px 0;
+    border-radius: 5px;
+    background-color: #e0ffe0;
+}
+
+
+.convert-button {
+    background-color: #146a09; /* Darker green */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    position: relative; /* This is to position the button at the bottom */
+    align-self: center; /* Position it to the center */
+    margin: 0; /* Resetting the right margin */
+    
+}
+
+.upload-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* space between uploaded files list and dropdown */
+}
+
+select {
+    width: 80%; 
+    border: 1px solid #146a09; /* Make it match the convert button color */
+    padding: 5px 10px;
+    border-radius: 5px;
+    appearance: none; /* Remove default appearance */
+    cursor: pointer;
+    align-self: flex-end; /* pushes it to the right */
+    background-color: #fff;
+}
+
+
+.upload-label {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.upload-label.dragging {
+    border: 2px dashed green;
+}
+
+
+.icon {
+    width: 50px;
+    height: 50px;
+}
+
+
+.convert-button:hover {
+    background-color: darkgreen;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998; /* one less than the loader to ensure loader is on top */
+    display: none; /* initially hidden */
+}
+
+.loader {
+    position: fixed; /* Fixed positioning */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* Put loader on top of other content */
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    background: rgba(255, 255, 255, 0.8); /* Optional: white background with opacity */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

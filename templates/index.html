@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Excel Converter</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
     <div class="container">
-        <form action="/" method="post" enctype="multipart/form-data" id="uploadForm">
-            <div class="upload-section">
-                <label for="input_excel" class="upload-label">
-                    <img src="{{ url_for('static', filename='excel-icon.png') }}" alt="Excel icon" class="icon">
-                    <p>Drop or Upload Files</p>
-                </label>
-                <input type="file" id="input_excel" name="input_excel" multiple hidden>
+
+        <div class="upload-section">
+            <label for="input_excel" class="upload-label">
+                <img src="{{ url_for('static', filename='excel-icon.png') }}" alt="Excel icon" class="icon">
+                <p>Drop or Upload Files</p>
+            </label>
+        </div>
+
+        <div class="sidebar">
+            <div class="uploaded-files" id="uploadedFilesList"></div>
+
+            <div class="upload-form-container">
+                <form action="/" method="post" enctype="multipart/form-data" id="uploadForm" target="hiddenFrame">
+                    <input type="file" id="input_excel" name="input_excel" multiple hidden>
+                    <select name="profile_name" id="profile_name">
+                        {% for profile in profiles %}
+                        <option value="{{ profile }}">{{ profile }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+                <button type="submit" class="convert-button" form="uploadForm">Convert</button>
             </div>
-            
-            <div class="control-section">
-                <select name="profile_name" id="profile_name">
-                    {% for profile in profiles %}
-                    <option value="{{ profile }}">{{ profile }}</option>
-                    {% endfor %}
-                </select>
-                <button type="submit" class="convert-button">Convert</button>
-            </div>
-        </form>
+        </div>
+        <div id="overlay" class="overlay"></div>
+        <div id="loader" class="loader" style="display:none;"></div>
+        <iframe name="hiddenFrame" id="hiddenFrame" style="display:none;"></iframe>
+
     </div>
 
     <script>
@@ -34,27 +45,55 @@
         const MAX_TOTAL_SIZE_MB = 5;
         const MAX_TOTAL_SIZE_BYTES = MAX_TOTAL_SIZE_MB * 1024 * 1024;
 
-        // Handle file dropping
+        // Handle file selection
         const uploadLabel = document.querySelector('.upload-label');
-        uploadLabel.addEventListener('dragover', (e) => {
+
+        function updateFileList(files) {
+            const fileListDiv = document.getElementById('uploadedFilesList');
+            fileListDiv.innerHTML = '';  // clear previous list
+
+            for (let i = 0; i < files.length; i++) {
+                const listItem = document.createElement('div');
+                listItem.textContent = files[i].name;
+                fileListDiv.appendChild(listItem);
+            }
+        }
+
+        function showLoaderAndOverlay() {
+            document.getElementById('loader').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function hideLoaderAndOverlay() {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        // Handle file dropping
+        uploadLabel.addEventListener('drop', (e) => {
             e.preventDefault();
-            uploadLabel.classList.add('dragging');
+            uploadLabel.classList.remove('dragging');
+            document.getElementById('input_excel').files = e.dataTransfer.files;
+            updateFileList(e.dataTransfer.files);
         });
 
         uploadLabel.addEventListener('dragleave', () => {
             uploadLabel.classList.remove('dragging');
         });
 
-        uploadLabel.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadLabel.classList.remove('dragging');
-            document.getElementById('input_excel').files = e.dataTransfer.files;
+        uploadLabel.addEventListener('dragover', (e) => {
+            e.preventDefault();  // This is crucial to make the drop event fire
+            uploadLabel.classList.add('dragging');
+        });
+
+        document.getElementById('input_excel').addEventListener('change', function() {
+            updateFileList(this.files);
         });
 
         // Check file count and size on form submission
         document.getElementById('uploadForm').addEventListener('submit', function(e) {
             const files = document.getElementById('input_excel').files;
-            
+
             if (files.length > MAX_FILES) {
                 alert(`You can convert a maximum of ${MAX_FILES} files at once.`);
                 e.preventDefault();
@@ -69,8 +108,18 @@
             if (totalSize > MAX_TOTAL_SIZE_BYTES) {
                 alert(`Total file size exceeds the ${MAX_TOTAL_SIZE_MB} MB limit!`);
                 e.preventDefault();
+                return;
             }
+            // Show loader if form is submitting
+            showLoaderAndOverlay();
+        });
+
+        // Hide loader and overlay when the iframe has loaded
+        document.getElementById('hiddenFrame').addEventListener('load', function() {
+            hideLoaderAndOverlay();
+            alert('Conversion complete');  // Inform the user that the conversion is done.
         });
     </script>
 </body>
+
 </html>

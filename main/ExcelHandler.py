@@ -101,6 +101,13 @@ class ExcelHandler:
     def _copy_cell(source_cell, target_cell):
         # Copy cell value
         target_cell.value = source_cell.value
+        
+        
+        # Check if the source cell value is a string
+        if isinstance(source_cell.value, str) and target_cell.row != 1:
+            return
+        elif source_cell.value is None:
+            return
 
         # If you want to copy style, don't directly pass the proxy style
         # Instead, create a new font/border/alignment/fill from the source's attributes
