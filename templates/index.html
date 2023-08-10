@@ -4,16 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Excel Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <form action="/" method="post" enctype="multipart/form-data">
-        <label for="input_excel">Upload Excel:</label>
-        <input type="file" name="input_excel" required>
-        <br>
-        <label for="profile_name">Profile Name:</label>
-        <input type="text" name="profile_name" required>
-        <br>
-        <input type="submit" value="Convert">
-    </form>
+    <div class="container">
+        <form action="/" method="post" enctype="multipart/form-data" id="uploadForm">
+            <div class="upload-section">
+                <label for="input_excel" class="upload-label">
+                    <img src="{{ url_for('static', filename='excel-icon.png') }}" alt="Excel icon" class="icon">
+                    <p>Drop or Upload Files</p>
+                </label>
+                <input type="file" id="input_excel" name="input_excel" multiple hidden>
+            </div>
+            
+            <div class="control-section">
+                <select name="profile_name" id="profile_name">
+                    {% for profile in profiles %}
+                    <option value="{{ profile }}">{{ profile }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="convert-button">Convert</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Constants for client-side validation
+        const MAX_FILES = 10;
+        const MAX_TOTAL_SIZE_MB = 5;
+        const MAX_TOTAL_SIZE_BYTES = MAX_TOTAL_SIZE_MB * 1024 * 1024;
+
+        // Handle file dropping
+        const uploadLabel = document.querySelector('.upload-label');
+        uploadLabel.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadLabel.classList.add('dragging');
+        });
+
+        uploadLabel.addEventListener('dragleave', () => {
+            uploadLabel.classList.remove('dragging');
+        });
+
+        uploadLabel.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadLabel.classList.remove('dragging');
+            document.getElementById('input_excel').files = e.dataTransfer.files;
+        });
+
+        // Check file count and size on form submission
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            const files = document.getElementById('input_excel').files;
+            
+            if (files.length > MAX_FILES) {
+                alert(`You can convert a maximum of ${MAX_FILES} files at once.`);
+                e.preventDefault();
+                return;
+            }
+
+            let totalSize = 0;
+            for (let i = 0; i < files.length; i++) {
+                totalSize += files[i].size;
+            }
+
+            if (totalSize > MAX_TOTAL_SIZE_BYTES) {
+                alert(`Total file size exceeds the ${MAX_TOTAL_SIZE_MB} MB limit!`);
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>
