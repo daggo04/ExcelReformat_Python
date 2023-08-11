@@ -1,5 +1,6 @@
 {"name":"Eye-share13.2_Nav_Convert","templatePath":"templates/Eye-Share_ImportMal13.1.2.xlsx","operations":
-[{"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"startRow":1.0,"dstCol":5.0,"dstSheet":2.0,"srcCol":0.0}},
+[{"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"startRow":1.0,"dstCol":0.0,"dstSheet":2.0,"srcCol":0.0}},
+{"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"startRow":1.0,"dstCol":5.0,"dstSheet":2.0,"srcCol":0.0}},
 {"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"startRow":1.0,"dstCol":2.0,"dstSheet":2.0,"srcCol":8.0}},
 {"type":"COPY_SPLIT_ROW","parameters":{"colMap":{"0.0":0.0,"10.0":3.0,"11.0":3.0,"12.0":3.0,"13.0":3.0,"14.0":3.0,"15.0":3.0},"srcSheet":0.0,"startRow":1.0,"includeHeaders":true,"headerCol":2.0,"dstSheet":3.0}},{"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":0.0,"dstSheet":0.0,"srcCol":0.0}},
 {"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":0.0,"dstSheet":0.0,"srcCol":0.0}},
@@ -9,5 +10,7 @@
 {"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":13.0,"dstSheet":0.0,"srcCol":5.0}},
 {"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":14.0,"dstSheet":0.0,"srcCol":6.0}},
 {"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":12.0,"dstSheet":0.0,"srcCol":7.0}},
-{"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":29.0,"dstSheet":0.0,"srcCol":16.0}}],
+{"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":29.0,"dstSheet":0.0,"srcCol":16.0}},
+{"type": "SET_COLUMN","parameters": {"sheet": 0.0,"col": 2.0,"value": "NAV","startRow": 2.0}},
+{"type": "SET_COLUMN","parameters": {"sheet": 0.0,"col": 8.0,"value": "NOK","startRow": 2.0}}],
 "namingConvention":"PRESERVE_NAME"}

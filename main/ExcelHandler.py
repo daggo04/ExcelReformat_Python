@@ -59,7 +59,6 @@ class ExcelHandler:
         col_map = {int(float(key)): int(float(value)) for key, value in col_map.items()}
 
         inverted_col_map = self._invert_col_map(col_map) #Invert the col_map to get a map of source columns to target columns
-        print(inverted_col_map)
 
         splits, key_to_split = self._determine_splits_and_key(inverted_col_map) #Find the key with the most values and the number of splits
 
@@ -94,8 +93,41 @@ class ExcelHandler:
                         target_header_cell = target_row[int(header_col)] #Get the target header cell
                         self._copy_cell(header_cell, target_header_cell)
 
+    def set_column_value(self, sheet: float, col: float, value: str, start_row: float, end_row: float = -1):
+        target_sheet = self.output.worksheets[int(sheet)]
+        dst_col_idx = int(col)
 
-    
+        # If end_row is not provided, find the last populated row in all columns and pick the longest two
+        if end_row == -1:
+            populated_columns = []
+
+            # Scan through the first row and identify populated columns
+            for column in range(1, target_sheet.max_column + 1):
+                if target_sheet.cell(row=2, column=column).value:
+                    populated_columns.append(column)
+
+            lengths = []
+            for column in populated_columns:
+                for row in range(target_sheet.max_row, 0, -1):
+                    if target_sheet.cell(row=row, column=column).value:
+                        lengths.append(row)
+                        break
+
+            # If there are populated columns, get the longest
+            if lengths:
+                lengths.sort(reverse=True)
+                end_row = lengths[0]
+                if len(lengths) > 1:
+                    end_row = max(lengths[:1])
+
+            # If no populated columns, default to max_row
+            else:
+                end_row = target_sheet.max_row
+
+        for row in range(start_row, end_row + 1):
+            cell = target_sheet.cell(row=row, column=dst_col_idx)
+            cell.value = value
+        
     # Helper methods
     @staticmethod
     def _copy_cell(source_cell, target_cell):

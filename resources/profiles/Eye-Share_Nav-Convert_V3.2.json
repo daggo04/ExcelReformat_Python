@@ -1,6 +1,7 @@
 {"name":"Eye-share13.2_Nav_Convert","templatePath":"templates/Eye-Share_ImportMal13.2.xlsx","operations":
-[{"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"startRow":1.0,"dstCol":5.0,"dstSheet":2.0,"srcCol":0.0}},
-{"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"startRow":1.0,"dstCol":2.0,"dstSheet":2.0,"srcCol":8.0}},
+[{"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"startRow":2.0,"dstCol":0.0,"dstSheet":2.0,"srcCol":0.0}},
+{"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"startRow":2.0,"dstCol":5.0,"dstSheet":2.0,"srcCol":0.0}},
+{"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"startRow":2.0,"dstCol":2.0,"dstSheet":2.0,"srcCol":8.0}},
 {"type":"COPY_SPLIT_ROW","parameters":{"colMap":{"0.0":0.0,"10.0":3.0,"11.0":3.0,"12.0":3.0,"13.0":3.0,"14.0":3.0,"15.0":3.0},"srcSheet":0.0,"startRow":1.0,"includeHeaders":true,"headerCol":2.0,"dstSheet":3.0}},{"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":0.0,"dstSheet":0.0,"srcCol":0.0}},
 {"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":2.0,"dstSheet":0.0,"srcCol":1.0}},
 {"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":3.0,"dstSheet":0.0,"srcCol":2.0}},
@@ -8,5 +9,7 @@
 {"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":9.0,"dstSheet":0.0,"srcCol":5.0}},
 {"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":10.0,"dstSheet":0.0,"srcCol":6.0}},
 {"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":8.0,"dstSheet":0.0,"srcCol":7.0}},
-{"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":25.0,"dstSheet":0.0,"srcCol":16.0}}],
+{"type":"COPY_COLUMN","parameters":{"srcSheet":0.0,"dstCol":25.0,"dstSheet":0.0,"srcCol":16.0}},
+{"type": "SET_COLUMN","parameters": {"sheet": 0.0,"col": 2.0,"value": "NAV","startRow": 2.0}},
+{"type": "SET_COLUMN","parameters": {"sheet": 0.0,"col": 6.0,"value": "NOK","startRow": 2.0}}],
 "namingConvention":"PRESERVE_NAME"}

@@ -18,6 +18,11 @@ class ProfileApplier:
     def apply(self):
         operations = self.profile['operations']
 
+        #Seperate set_column operations from other operations to determine the order of operations (set_column operations should be done last)
+        # This is because set_column needs to know the last populated row in the sheet
+        set_column_operations = [op for op in operations if op['type'] == 'SET_COLUMN']
+        operations = [op for op in operations if op['type'] != 'SET_COLUMN']
+        
         for operation in operations:
             op_type = operation['type']
             params = operation['parameters']
@@ -40,6 +45,22 @@ class ProfileApplier:
                     header_col=int(params.get('headerCol', 0))
                 )
             #TODO: Extend this to other operations
+            
+            
+        for operation in set_column_operations:
+            op_type = operation['type']
+            params = operation['parameters']
+            print(params)
+            
+            if op_type == "SET_COLUMN":
+                self.handler.set_column_value(
+                        sheet=params['sheet'],
+                        col=int(params['col']),
+                        value=params['value'],
+                        start_row=int(params.get('startRow', 2)),
+                        end_row=int(params.get('endRow', -1))
+                    )
+
 
     def save_output(self, output_path: Path):
         self.handler.save_output_workbook(output_path)
