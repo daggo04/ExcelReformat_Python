@@ -37,6 +37,7 @@
         <div id="loader" class="loader" style="display:none;"></div>
         <iframe name="hiddenFrame" id="hiddenFrame" style="display:none;"></iframe>
 
+
     </div>
 
     <script>
@@ -58,6 +59,15 @@
                 fileListDiv.appendChild(listItem);
             }
         }
+
+        function resetPage() {
+            hideLoaderAndOverlay();
+            // Possibly reset the form and any other UI elements as needed
+            document.getElementById('uploadForm').reset();
+            document.getElementById('uploadedFilesList').innerHTML = '';  // clear previous list
+            document.getElementById('resetButton').style.display = 'none';
+        }
+        
 
         function showLoaderAndOverlay() {
             document.getElementById('loader').style.display = 'block';
@@ -116,6 +126,7 @@
 
         // Hide loader and overlay when the iframe has loaded
         document.getElementById('hiddenFrame').addEventListener('load', function() {
+            console.log("iframe loaded");
             hideLoaderAndOverlay();
             alert('Conversion complete');  // Inform the user that the conversion is done.
         });
