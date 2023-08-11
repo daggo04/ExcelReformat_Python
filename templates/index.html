@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Excel Converter</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 </head>
+
 
 <body>
     <div class="container">
@@ -126,9 +128,21 @@
 
         // Hide loader and overlay when the iframe has loaded
         document.getElementById('hiddenFrame').addEventListener('load', function() {
-            console.log("iframe loaded");
-            hideLoaderAndOverlay();
-            alert('Conversion complete');  // Inform the user that the conversion is done.
+            let iframeDocument = this.contentDocument || this.contentWindow.document;
+            if (iframeDocument.location.href === "about:blank") {
+                // Prevent false positive load events when iframe is initially loaded with about:blank
+                return;
+            }
+        
+            if (this.contentWindow.status === 205) {
+                console.log("iframe loaded with 205 status");
+                hideLoaderAndOverlay();
+                alert('Conversion complete');
+            } else {
+                console.log("iframe loaded with other status");
+                hideLoaderAndOverlay();
+                alert('An error occurred. Please try again.');
+            }
         });
     </script>
 </body>
