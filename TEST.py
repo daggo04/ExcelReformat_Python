@@ -1,19 +1,30 @@
 from pathlib import Path
-from ProfileApplier import ProfileApplier
+from main.ProfileApplier import ProfileApplier
+import openpyxl
 
 def test_excel_conversion():
     print("Starting the test...")
     # Paths and filenames
     test_files = [
-        "Test/Input/Fakturaavtale Alver husleie og felleskostnader.xlsx"
+        "ΩTest/_input/Fakturaavtale Alver husleie og felleskostnader.xlsx"
     ]
 
+    # wb = openpyxl.load_workbook("resources/templates/Eye-Share_ImportMal13.1.2.xlsx")
+    # print(wb.sheetnames)
+    # print(wb.defined_names.values())
+    
+    #     # Loop over each worksheet in the template workbook
+    # for sheet in wb.worksheets:
+    #     # Loop over each name defined in the worksheet
+    #     for defined_name in sheet.defined_names.values():
+    #         print(defined_name.name)
+
     # Output directory
-    output_dir = Path("Test/Output")
+    output_dir = Path("ΩTest/_output")
     output_dir.mkdir(exist_ok=True)  # create output directory if it doesn't exist
 
     # Profile name
-    profile_name = "Eye-share13.2_Nav_Convert"
+    profile_name = "Eye-Share_Nav-Convert_V3.1.2"
 
     # Process each file
     for file_path in test_files:

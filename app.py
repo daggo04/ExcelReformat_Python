@@ -11,7 +11,7 @@ app = Flask(__name__)
 VERSION = "0.0.1"
 ALLOWED_EXTENSIONS = {'xlsx', 'xls'}
 MAX_FILES = 10
-MAX_TOTAL_SIZE_MB = 10  # let's say 50 MB as an example
+MAX_TOTAL_SIZE_MB = 10 
 MAX_TOTAL_SIZE_BYTES = MAX_TOTAL_SIZE_MB * 1024 * 1024
 
 
@@ -72,4 +72,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

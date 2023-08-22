@@ -1,7 +1,9 @@
 import openpyxl
 from openpyxl.utils import cell as cell_utils
+from openpyxl.utils import quote_sheetname, absolute_coordinate
 from openpyxl.styles import NamedStyle, Font, Border, PatternFill, Alignment
 from openpyxl.workbook import Workbook
+from openpyxl.workbook.defined_name import DefinedName
 from openpyxl.worksheet.worksheet import Worksheet
 from pathlib import Path
 
@@ -15,6 +17,9 @@ class ExcelHandler:
             for sheetname in self.template.sheetnames:
                 self.output.create_sheet(sheetname)
                 self._copy_worksheet(self.template[sheetname], self.output[sheetname])
+                
+            # Copy defined names
+            self._copy_defined_names()
             # Remove the default sheet created by openpyxl
             default_sheet = self.output.active
             if default_sheet:
@@ -215,4 +220,34 @@ class ExcelHandler:
                 return False
         return True
     
-    
+    def _copy_defined_names(self):
+        # Copy globally defined names
+        for name, defn in self.template.defined_names.items():
+            destinations = defn.destinations
+            for title, coord in destinations:
+                output_sheet = self.output.get_sheet_by_name(title)
+                
+                # Check if the name already contains a sheet reference
+                if "!" in coord:
+                    ref = coord
+                else:
+                    ref = f"{quote_sheetname(output_sheet.title)}!{absolute_coordinate(coord)}"
+                
+                defn_new = DefinedName(name, attr_text=ref)
+                self.output.defined_names[name] = defn_new
+
+        # Copy worksheet-specific defined names
+        for sheet in self.template.worksheets:
+            for name, defn in sheet.defined_names.items():
+                output_sheet = self.output.get_sheet_by_name(sheet.title)
+                
+                # Check if the name already contains a sheet reference
+                if "!" in defn.attr_text:
+                    ref = defn.attr_text
+                else:
+                    ref = f"{quote_sheetname(output_sheet.title)}!{absolute_coordinate(defn.attr_text)}"
+                
+                defn_new = DefinedName(name, attr_text=ref)
+                output_sheet.defined_names.add(defn_new)
+
+            

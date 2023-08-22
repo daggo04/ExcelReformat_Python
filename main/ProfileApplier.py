@@ -50,7 +50,6 @@ class ProfileApplier:
         for operation in set_column_operations:
             op_type = operation['type']
             params = operation['parameters']
-            print(params)
             
             if op_type == "SET_COLUMN":
                 self.handler.set_column_value(
